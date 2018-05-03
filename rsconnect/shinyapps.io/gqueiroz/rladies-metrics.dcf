@@ -1,0 +1,13 @@
+name: rladies-metrics
+title: rladies-metrics
+username:
+account: gqueiroz
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 337009
+bundleId: 1354552
+url: https://gqueiroz.shinyapps.io/rladies-metrics/
+when: 1525381948.66808
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .httr-oauth
