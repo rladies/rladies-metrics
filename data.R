@@ -1,14 +1,11 @@
-library(shinydashboard)
-library(dplyr)
-library(dbplyr)
-library(purrr)
-library(shiny)
-library(highcharter)
-library(DT)
-library(htmltools)
-library(rvest)
-library(dplyr)
-library(rtweet)
+suppressWarnings(library(shinydashboard))
+suppressWarnings(library(shiny))
+suppressWarnings(library(tidyverse))
+# library(highcharter)
+suppressWarnings(library(DT))
+# library(htmltools)
+suppressWarnings(library(rvest))
+suppressWarnings(library(rtweet))
 
 
 # source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
@@ -70,8 +67,6 @@ meetup_not_on_gh <- rladies_groups$urlname[!(rladies_groups$urlname %in% rladies
 # -------------------
 load("twitter_tokens.RData")
 
-library(rtweet)
-
 createTokenNoBrowser<- function(appName, consumerKey, consumerSecret, 
                                 accessToken, accessTokenSecret) {
   app <- httr::oauth_app(appName, consumerKey, consumerSecret)
@@ -92,5 +87,10 @@ token <- createTokenNoBrowser("rtweet-pkg", consumer_key, consumer_secret,
 #   consumer_key = consumer_key,
 #   consumer_secret = consumer_secret)
 
-rladies_chapters_twitter <- lists_members(slug = "rladies-chapters", owner_user = "gdequeiroz")
-n_rladies_chapters_twitter <- nrow(rladies_chapters_twitter)
+# rladies_chapters_twitter <- lists_members(slug = "rladies-chapters", owner_user = "gdequeiroz")
+# n_rladies_chapters_twitter <- nrow(rladies_chapters_twitter)
+source("twitter-fetch.R")
+n_rladies_chapters_twitter <- length(users_screennames)
+
+# print(rladies_chapters_twitter)
+# print(n_rladies_chapters_twitter)

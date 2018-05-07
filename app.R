@@ -1,8 +1,6 @@
 
 source("data.R")
 
-
-
 # Header ----------------------------------------------------------------------
 
 header <- dashboardHeader(title = "R-Ladies Metrics Dashboard",
@@ -82,7 +80,8 @@ server <- function(input, output) {
   
   
   output$n_tweets <- renderValueBox({
-    valueBox(value = n_rladies_chapters_twitter, "R-Ladies on Twitter", icon = icon("twitter"), color = "purple" )
+    valueBox(value = n_rladies_chapters_twitter, "R-Ladies on Twitter", 
+             icon = icon("twitter"), color = "purple" )
   })
   
   
