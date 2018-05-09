@@ -8,9 +8,9 @@ suppressWarnings(library(rvest))
 suppressWarnings(library(rtweet))
 
 
-# source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
+source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
 # saveRDS(rladies_groups, "rladies_groups.RDS")
-rladies_groups <- readRDS("rladies_groups.RDS")
+# rladies_groups <- readRDS("rladies_groups.RDS")
 
 
 rladies_list <- sort(rladies_groups$city)

@@ -29,8 +29,8 @@ body <- dashboardBody(
       
       fluidRow(
         
-        absolutePanel( # class = "panel panel-default panel-side",
-          style = "z-index: 2000", fixed = TRUE, draggable = TRUE,
+        absolutePanel(style = "z-index: 2000", 
+                      fixed = TRUE, draggable = TRUE,
           top  = 10, left = "auto", right = 20, width = "250px",
           div(
             tags$a(target="_blank", 
@@ -42,8 +42,8 @@ body <- dashboardBody(
         ),
         
         # Info boxes
-        valueBox(n_countries, "Countries", icon("globe", "font-awesome"), width = 2),
         valueBox(n_cities, "Cities", icon("globe", "font-awesome"), width = 2),
+        valueBox(n_countries, "Countries", icon("globe", "font-awesome"), width = 2),
         valueBox(n_has_meetup_page, "Has meetup page", icon("meetup", lib = "font-awesome"), 
                  width = 2, color = "red"),
         valueBoxOutput("n_tweets", width = 2)
