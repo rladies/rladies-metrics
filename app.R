@@ -54,12 +54,13 @@ body <- dashboardBody(
         
         # Tables
         box(
-          title = "Need to be added to the repo",
-          width = 3,
+          title = "Number of events so far", width = 2,
+          tableOutput("total_number_events"),
+          status = "warning", collapsible = TRUE),
+        box(
+          title = "Need to be added to the repo", width = 2,
           tableOutput("tbl_meetup_not_on_gh"),
-          status = "warning",
-          collapsible = TRUE
-        )
+          status = "warning", collapsible = TRUE)
       )
       
     )
@@ -87,8 +88,8 @@ server <- function(input, output) {
   
   meetup_not_on_gh <- as.data.frame(meetup_not_on_gh)
   colnames(meetup_not_on_gh) <- "meetup name"
-  output$tbl_meetup_not_on_gh <- renderTable(meetup_not_on_gh, rownames = FALSE)
-    
+  output$tbl_meetup_not_on_gh <- renderTable(meetup_not_on_gh)
+  output$total_number_events <- renderTable(total_number_events)
         
 
   
