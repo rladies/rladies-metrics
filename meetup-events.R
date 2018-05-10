@@ -6,7 +6,7 @@ api_key <- readRDS("meetup_key.RDS")
 
 
 # slowly function from Jenny Bryan
-slowly <- function(f, delay = 0.5) {
+slowly <- function(f, delay = 0.3) {
   function(...) {
     Sys.sleep(delay)
     f(...)
@@ -50,3 +50,4 @@ n_events_six_months <- past_meetups %>%
   count() %>% 
   arrange(desc(n))
 
+# Descriptions
