@@ -1,5 +1,7 @@
 
 source("data.R")
+source("meetup-events.R")
+
 
 # Header ----------------------------------------------------------------------
 
@@ -58,6 +60,10 @@ body <- dashboardBody(
           tableOutput("total_number_events"),
           status = "warning", collapsible = TRUE),
         box(
+          title = "Number of events in the last 6 months", width = 2,
+          tableOutput("n_events_six_months"),
+          status = "warning", collapsible = TRUE),
+        box(
           title = "Need to be added to the repo", width = 2,
           tableOutput("tbl_meetup_not_on_gh"),
           status = "warning", collapsible = TRUE)
@@ -89,8 +95,9 @@ server <- function(input, output) {
   meetup_not_on_gh <- as.data.frame(meetup_not_on_gh)
   colnames(meetup_not_on_gh) <- "meetup name"
   output$tbl_meetup_not_on_gh <- renderTable(meetup_not_on_gh)
+  
   output$total_number_events <- renderTable(total_number_events)
-        
+  output$n_events_six_months <- renderTable(n_events_six_months)      
 
   
 }
