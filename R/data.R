@@ -6,17 +6,23 @@ suppressWarnings(library(DT))
 # library(htmltools)
 suppressWarnings(library(rvest))
 suppressWarnings(library(rtweet))
-
+library(data.table)
 
 source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
 # saveRDS(rladies_groups, "rladies_groups.RDS")
 # rladies_groups <- readRDS("rladies_groups.RDS")
 
-
+# 
 rladies_list <- sort(rladies_groups$city)
 
+# -------------------------------------------------------------------
+# From Current-Chapters.csv 
+# -------------------------------------------------------------------
+
 # read the page where the list of chapters is located
-page <- read_html("https://github.com/rladies/starter-kit/blob/master/Current-Chapters.md")
+url <- "https://raw.githubusercontent.com/rladies/starter-kit/master/"
+file <- "Current-Chapters.csv"
+current_chapters <- fread(paste0(url, file))
 
 
 # -----------------------
@@ -24,43 +30,31 @@ page <- read_html("https://github.com/rladies/starter-kit/blob/master/Current-Ch
 # -----------------------
 
 # Countries: get the countries of the chapters ----------------------------
-countries <- page %>% 
-  html_nodes("ul+ h2 , p+ h2") %>% 
-  html_text() 
-countries <- countries[!grepl("Remote", countries)]
+countries <- current_chapters$Country[!grepl("Remote", current_chapters$Country)]
+n_countries <- length(unique(countries))
 
-n_countries <- length(countries)
+# Cities: get the cities of the chapters
+cities <- current_chapters$City
+n_cities <- length(cities)
 
-## Get the cities of the chapters
-cities <- page %>%
-  html_nodes("#readme strong") %>% 
-  html_text() %>% 
-  tbl_df()
-
-cities_plus_dc <- page %>%
-  html_nodes("h3:nth-child(150) , #readme strong") %>% 
-  html_text() 
-
-
-n_cities <- length(cities_plus_dc)
-
-# has meetup page
-has_meetup_page <- page %>% 
-  html_nodes("#readme li:nth-child(1) a") %>% 
-  html_text()
-has_meetup_page <- has_meetup_page[grepl("meetup.com", has_meetup_page)]
+# Meetup: has meetup page
+has_meetup_page <- current_chapters[!Meetup %in% c("", NA), Meetup]
 n_has_meetup_page <- length(has_meetup_page)
 
+# get the url name - This will used to check if the url follows the 
+# standard: rladies-CITY (ex: rladies-london, rladies-san-francisco)
 rladies_urlname <- sub("/", replacement = "", 
                        sub("https://www.meetup.com/|http://www.meetup.com/", 
                            replacement = "", has_meetup_page))
 
 
-
-rm(page, countries, cities, cities_plus_dc, has_meetup_page)
+# remove variables we are not going to use
+rm(current_chapters, countries, cities, has_meetup_page)
 
 # Compare what we have on the meetup page with what we have on the current_chapters.md
-meetup_not_on_gh <- rladies_groups$urlname[!(rladies_groups$urlname %in% rladies_urlname)]
+meetup_not_on_gh <- casefold(rladies_groups$urlname, upper = FALSE)[
+  !(casefold(rladies_groups$urlname, upper = FALSE) %in% casefold(rladies_urlname, FALSE))
+  ]
 
 # -------------------
 # Groups on twitter 
