@@ -1,6 +1,7 @@
 library(rdrop2)
 library(meetupr)
 library(lubridate)
+library(tidyverse)
 
 
 # Need to setup the MEETUP KEY and read it
