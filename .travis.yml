@@ -3,4 +3,4 @@ cache:
   packages: true
 
 script:
-  - Rscript -e get-data-meetups.R
+  - Rscript -e R/get-data-meetups.R
