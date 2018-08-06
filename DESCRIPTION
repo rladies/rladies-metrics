@@ -11,5 +11,6 @@ Imports:
     rtweet,
     data.table,
     rdrop2,
-    lubridate,
-    meetupr
+    lubridate
+Remotes: 
+    rladies/meetupr
