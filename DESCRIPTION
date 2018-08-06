@@ -9,4 +9,6 @@ Imports:
     tidyverse,
     rvest,
     rtweet,
-    data.table
+    data.table,
+    rdrop2,
+    lubridate
