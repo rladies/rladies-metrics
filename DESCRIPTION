@@ -12,6 +12,7 @@ Imports:
     data.table,
     rdrop2,
     lubridate,
+    futile.logger,
     meetupr
 Remotes: 
     rladies/meetupr
