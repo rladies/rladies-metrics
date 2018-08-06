@@ -6,10 +6,16 @@ library(tidyverse)
 
 # Need to setup the MEETUP KEY and read it
 futile.logger::flog.info("Loading meetup api key")
+
+### TODO
+# Add a ifelse when running the shinyapp
+# The app needs the RDS but travis doesn't
+
 # api_key <- readRDS("meetup_key.RDS")
 api_key <- Sys.getenv("meetup_key")
 
 # source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
+source("R/chapters_source.R")
 
 
 
