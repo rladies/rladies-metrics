@@ -8,6 +8,7 @@ suppressWarnings(library(rvest))
 suppressWarnings(library(rtweet))
 library(data.table)
 
+futile.logger::flog.info("Loading chapters_source.R")
 source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
 # saveRDS(rladies_groups, "rladies_groups.RDS")
 # rladies_groups <- readRDS("rladies_groups.RDS")
@@ -83,8 +84,10 @@ token <- createTokenNoBrowser("rtweet-pkg", consumer_key, consumer_secret,
 
 # rladies_chapters_twitter <- lists_members(slug = "rladies-chapters", owner_user = "gdequeiroz")
 # n_rladies_chapters_twitter <- nrow(rladies_chapters_twitter)
+futile.logger::flog.info("Loading twitter-fetch.R")
 source("twitter-fetch.R")
 n_rladies_chapters_twitter <- length(users_screennames)
 
 # print(rladies_chapters_twitter)
 # print(n_rladies_chapters_twitter)
+

@@ -1,5 +1,6 @@
-
+futile.logger::flog.info("Loading data.R")
 source("data.R")
+futile.logger::flog.info("Loading meetup-events.R")
 source("meetup-events.R")
 
 
