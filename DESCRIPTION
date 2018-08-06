@@ -1,0 +1,12 @@
+Package: rladies-metrics
+Title: R-Ladies Metrics
+Version: 0.0.0.9000
+Authors@R: person("Gabriela", "de Queiroz", email = "gabriela@rladies.org", role = c("aut", "cre"))
+Depends: R (>= 3.5.0)
+Imports: 
+    shinydashboard,
+    shiny,
+    tidyverse,
+    rvest,
+    rtweet,
+    data.table
