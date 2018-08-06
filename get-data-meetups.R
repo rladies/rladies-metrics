@@ -8,7 +8,7 @@ futile.logger::flog.info("Loading meetup api key")
 # api_key <- readRDS("meetup_key.RDS")
 api_key <- Sys.getenv("meetup_key")
 
-source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
+# source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
 
 
 
