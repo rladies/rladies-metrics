@@ -1,4 +1,6 @@
 language: R
+cache:
+  packages: true
 
 script:
-  - R CMD BATCH test.R test
+  - Rscript -e get-data-meetups.R
