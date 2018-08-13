@@ -2,6 +2,8 @@ library(rdrop2)
 library(meetupr)
 library(lubridate)
 
+futile.logger::flog.info("Reading dropbox token")
+
 ## read data from Dropbox
 dropbox_token <- readRDS("token.rds")
 dt <- today()
