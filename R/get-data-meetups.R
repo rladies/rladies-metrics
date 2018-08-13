@@ -58,10 +58,11 @@ past_meetups$city <- gsub("-|/|_", "",
 # -------------------------------------------------------------------
 # Save the Data on dropbox 
 # -------------------------------------------------------------------
-futile.logger::flog.info("Saving file to Dropbox")
-dropbox_token <- readRDS("token.rds")
+futile.logger::flog.info("Reading Dropbox token")
+dropbox_token <- readRDS("R/token.rds")
 # token <- drop_auth()
 # saveRDS(token, file = "token.rds")
 fn <- paste0(today(), "_past_meetups.csv")
 write_csv(past_meetups, fn)
+futile.logger::flog.info("Uploading file to Dropbox")
 drop_upload(fn, "rladies-metrics-data/")
