@@ -54,7 +54,11 @@ past_meetups$city <- gsub("-|/|_", "",
 )
 # unique(past_meetups$city)
 
-# Save the Data on dropbox -------------------------------------------------------
+
+# -------------------------------------------------------------------
+# Save the Data on dropbox 
+# -------------------------------------------------------------------
+futile.logger::flog.info("Saving file to Dropbox")
 dropbox_token <- readRDS("token.rds")
 # token <- drop_auth()
 # saveRDS(token, file = "token.rds")
