@@ -1,7 +1,11 @@
+library(DT)
+
 futile.logger::flog.info("Loading data.R")
 source("data.R")
-futile.logger::flog.info("Loading meetup-events.R")
-source("meetup-events.R")
+futile.logger::flog.info("Loading metrics-past-meetups.R")
+source("metrics-past-meetups.R")
+
+
 
 
 # Header ----------------------------------------------------------------------
@@ -56,14 +60,16 @@ body <- dashboardBody(
       fluidRow(
         
         # Tables
-        box(
-          title = "Number of events so far", width = 2,
-          tableOutput("total_number_events"),
-          status = "warning", collapsible = TRUE),
-        box(
-          title = "Number of events in the last 6 months", width = 2,
-          tableOutput("n_events_six_months"),
-          status = "warning", collapsible = TRUE),
+        
+        ## total number of events
+        box(title = "Total number of events", width = 2, solidHeader = TRUE, status = "primary", 
+            collapsible = TRUE, DT::dataTableOutput("total_number_events")),
+        
+        # "number of events in the last 6 months"
+        box(title = "Total number of events in the last 6 months", width = 2, solidHeader = TRUE, status = "primary", 
+            collapsible = TRUE, DT::dataTableOutput("n_events_six_months")),
+        
+        
         box(
           title = "Need to be added to the repo", width = 2,
           tableOutput("tbl_meetup_not_on_gh"),
@@ -77,13 +83,13 @@ body <- dashboardBody(
 )
 
 
-
+## ui --------------------------------------------------------------
 ui <- dashboardPage(skin = "purple", header, sidebar, body)
 
 
 
 
-
+## server --------------------------------------------------------------
 server <- function(input, output) { 
   
   
@@ -97,8 +103,14 @@ server <- function(input, output) {
   colnames(meetup_not_on_gh) <- "meetup name"
   output$tbl_meetup_not_on_gh <- renderTable(meetup_not_on_gh)
   
-  output$total_number_events <- renderTable(total_number_events)
-  output$n_events_six_months <- renderTable(n_events_six_months)      
+  
+  output$total_number_events <- DT::renderDataTable(total_number_events, 
+                                                    rownames= FALSE, 
+                                                    options = list(pageLength = 20, autoWidth = TRUE))
+  
+  output$n_events_six_months <- DT::renderDataTable(n_events_six_months,
+                                                    rownames= FALSE, 
+                                                    options = list(pageLength = 20, autoWidth = TRUE))
 
   
 }
