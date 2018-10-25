@@ -10,7 +10,6 @@
 library(shinydashboard)
 library(shiny)
 library(tidyverse)
-library(DT)
 library(rvest)
 library(rtweet)
 library(data.table)
