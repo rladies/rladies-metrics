@@ -7,14 +7,15 @@ library(meetupr)
 
 
 # meetup groups
-# api_key <- readRDS("meetup_key.RDS")
-api_key <- Sys.getenv("meetup_key")
+api_key <- readRDS("meetup_key.RDS")
+# api_key <- Sys.getenv("meetup_key")
 all_rladies_groups <- find_groups(text = "r-ladies", api_key = api_key)
 
 # Cleanup
-rladies_groups <- all_rladies_groups[grep(pattern = "rladies|r-ladies|rug", 
-                                          x = all_rladies_groups$urlname,
+rladies_groups <- all_rladies_groups[grep(pattern = "rladies|r-ladies", 
+                                          x = all_rladies_groups$name,
                                           ignore.case = TRUE), ]
+
 
 # Each country/continent
 groups_usa <- rladies_groups %>% 
