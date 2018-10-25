@@ -6,7 +6,9 @@ library(lubridate)
 futile.logger::flog.info("Reading dropbox token")
 
 ## read data from Dropbox
-dropbox_token <- readRDS("token.rds")
+# the dropbox key key was added to TRAVIS
+dropbox_token <- readRDS("R/token-dropbox.rds")
+
 # list files from Dropbox
 files <- rdrop2::drop_dir("rladies-metrics-data")$name
 dt <- max(substr(files, 1, 10))
