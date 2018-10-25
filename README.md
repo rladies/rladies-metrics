@@ -6,6 +6,10 @@
 
 # R-Ladies metrics
 
+[![Build
+Status](https://travis-ci.org/rladies/rladies-metrics.svg?branch=master)](https://travis-ci.org/rladies/rladies-metrics)
+
+
 Dashboard containing R-Ladies metrics
 
 
