@@ -1,7 +1,7 @@
 # -------------------
 # Groups on twitter 
 # -------------------
-load("R/twitter_tokens.RData")
+load("twitter_tokens.RData")
 
 createTokenNoBrowser<- function(appName, consumerKey, consumerSecret, 
                                 accessToken, accessTokenSecret) {
@@ -32,7 +32,7 @@ library(rjson)
 library(httr)
 library(twitteR)
 
-load("twitter_tokens.RData")
+# load("twitter_tokens.RData")
 
 # Set-up twitter authentication
 setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_token_secret)

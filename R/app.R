@@ -1,9 +1,9 @@
 library(DT)
 
-futile.logger::flog.info("Loading data.R")
-source("data.R")
-futile.logger::flog.info("Loading metrics-past-meetups.R")
-source("metrics-past-meetups.R")
+futile.logger::flog.info("Loading get-data-chapters.R ----------------")
+source("get-data-chapters.R")
+futile.logger::flog.info("Loading create-metrics-past-meetups.R --------")
+source("create-metrics-past-meetups.R")
 
 
 source("get-data-twitter.R")
