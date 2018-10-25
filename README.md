@@ -15,4 +15,4 @@ Dashboard containing R-Ladies metrics
 
 So far the app looks like this:
 
-![](rladies_metrics.png)
+![](www/rladies_metrics.png)
