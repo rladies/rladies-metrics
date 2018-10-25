@@ -12,7 +12,9 @@ futile.logger::flog.info("Loading meetup api key")
 # The app needs the RDS but travis doesn't
 
 # api_key <- readRDS("meetup_key.RDS")
-api_key <- Sys.getenv("meetup_key")
+# api_key <- Sys.getenv("meetup_key")
+# the meetup key was added to TRAVIS
+api_key <- readRDS("R/meetup_key.rds")
 
 # source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
 source("R/chapters_source.R")
@@ -20,7 +22,7 @@ source("R/chapters_source.R")
 
 
 # slowly function from Jenny Bryan
-slowly <- function(f, delay = 0.3) {
+slowly <- function(f, delay = 0.5) {
   function(...) {
     Sys.sleep(delay)
     f(...)
@@ -43,17 +45,35 @@ rl_meetups_past <- map(rladies_groups$urlname, slowly(safely(get_events)),
 
 futile.logger::flog.info("Length meetup: %s", length(rl_meetups_past))
 
-subset_past_meetups <- lapply(seq_along(rl_meetups_past), 
-                              function(x) rl_meetups_past[[x]]$result[,c("local_date", "venue_city", "link")])
+subset_past_meetups <- lapply(
+  seq_along(rl_meetups_past), 
+  function(x) rl_meetups_past[[x]]$result[, c(
+    "local_date", "venue_city", "venue_country", "link"
+    )]
+  )
+
+futile.logger::flog.info("Length meetup: %s", length(subset_past_meetups))
 
 past_meetups <- bind_rows(subset_past_meetups)
 
-# Clean up url to get the city name
+futile.logger::flog.info("Length meetup: %s", dim(past_meetups))
+
+# Clean up url to get the city name -------------------------------------
 past_meetups$meetup_url <- gsub("events.*","", past_meetups$link)
+length(unique(past_meetups$meetup_url))
+futile.logger::flog.info("Length meetup: %s", dim(past_meetups))
+
+
 past_meetups$city <- gsub("-|/|_", "", 
-                          gsub(pattern = ".*(rladies|r-ladies|R-Ladies|RLadies)", "", past_meetups$meetup_url)
+                          gsub(pattern = ".*(rladies|r-ladies|R-Ladies|RLadies)", "", 
+                               past_meetups$meetup_url)
 )
 # unique(past_meetups$city)
+
+# Small fixes
+past_meetups[grep("%C4%B0zmiR", past_meetups$city, ignore.case = TRUE), "city"] <-"Izmir"
+past_meetups[grep("https:www.meetup.comSpotkaniaEntuzjastowRWarsawRUsersGroupMeetup", 
+                  past_meetups$city, ignore.case = TRUE), "city"] <- "Warsaw"
 
 futile.logger::flog.info("Dataset rows: %s", dim(past_meetups))
 
