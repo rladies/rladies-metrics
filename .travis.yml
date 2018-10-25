@@ -2,9 +2,9 @@ language: R
 cache:
   packages: true
 before_install:
-- openssl aes-256-cbc -K $encrypted_a201ead168c6_key -iv $encrypted_a201ead168c6_iv 
- -in R/token.rds.enc -out R/token.rds -d
+- openssl aes-256-cbc -K $encrypted_d4a97966b6bb_key -iv $encrypted_d4a97966b6bb_iv
+  -in meetup_key.RDS.enc -out R/meetup_key.RDS -d
+- openssl aes-256-cbc -K $encrypted_a201ead168c6_key -iv $encrypted_a201ead168c6_iv
+  -in R/token.rds.enc -out R/token.rds -d
 script:
-  - Rscript -e 'source("R/get-data-meetups.R")'
-  
-  
+- Rscript -e 'source("R/get-data-meetups.R")'
