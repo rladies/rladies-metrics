@@ -1,7 +1,9 @@
 # ----------------------------------------------------- #
-# The goal of the script is to
-
-
+# The goal of the script is to compare what we have in
+# the meetup page and on the "Current-Chapters.csv"
+# If there is a chapter that is on meetup.com but on 
+# "Current-Chapters.csv", then we will have to manually
+# add to the csv.
 # ----------------------------------------------------- #
 
 
@@ -12,18 +14,21 @@ library(DT)
 library(rvest)
 library(rtweet)
 library(data.table)
+library(meetupr)
 
 # -------------------------------------------------------------------
 #  1. Get all rladies groups using the meetupr package
 # -------------------------------------------------------------------
+# meetup groups
+api_key <- readRDS("meetup_key.RDS")
+all_rladies_groups <- find_groups(text = "r-ladies", api_key = api_key)
 
-futile.logger::flog.info("Loading chapters_source.R")
-source("chapters_source.R")
+# Cleanup
+rladies_groups <- all_rladies_groups[grep(pattern = "rladies|r-ladies", 
+                                          x = all_rladies_groups$name,
+                                          ignore.case = TRUE), ]
+
 rladies_list <- sort(rladies_groups$city)
-
-# source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
-# saveRDS(rladies_groups, "rladies_groups.RDS")
-# rladies_groups <- readRDS("rladies_groups.RDS")
 
 
 # -------------------------------------------------------------------
