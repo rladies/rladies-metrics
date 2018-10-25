@@ -11,7 +11,7 @@ futile.logger::flog.info("Loading meetup api key")
 # Add a ifelse when running the shinyapp
 
 # the meetup key was added to TRAVIS
-api_key <- readRDS("R/meetup_key.rds")
+api_key <- readRDS("R/token-meetup.rds")
 
 # source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
 source("R/get-data-chapters.R")
