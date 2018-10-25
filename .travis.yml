@@ -3,8 +3,7 @@ cache:
   packages: true
 before_install:
 - openssl aes-256-cbc -K $encrypted_d4a97966b6bb_key -iv $encrypted_d4a97966b6bb_iv
-  -in token-meetup.rds.enc -out R/token-meetup.rds -d
-- openssl aes-256-cbc -K $encrypted_d4a97966b6bb_key -iv $encrypted_d4a97966b6bb_iv
-  -in token-dropbox.rds.enc -out R/token-dropbox.rds -d
+  -in secrets.tar.enc -out secrets.tar -d
+- tar xvf secrets.tar
 script:
 - Rscript -e 'source("R/daily-job_get-meetup-events_save-dropbox.R")'
