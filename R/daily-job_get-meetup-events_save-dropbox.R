@@ -78,7 +78,7 @@ futile.logger::flog.info("Dataset rows: %s", dim(past_meetups))
 # Save the Data on dropbox 
 # -------------------------------------------------------------------
 futile.logger::flog.info("Reading Dropbox token")
-dropbox_token <- readRDS("R/token-dropbox.rds.rds")
+dropbox_token <- readRDS("R/token-dropbox.rds")
 # token <- drop_auth()
 # saveRDS(token, file = "token.rds")
 fn <- paste0(today(), "_past_meetups.csv")
