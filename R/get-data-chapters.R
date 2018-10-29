@@ -19,7 +19,7 @@ library(meetupr)
 #  1. Get all rladies groups using the meetupr package
 # -------------------------------------------------------------------
 # meetup groups
-api_key <- readRDS("meetup_key.RDS")
+api_key <- readRDS("R/token-meetup.rds")
 all_rladies_groups <- find_groups(text = "r-ladies", api_key = api_key)
 
 # Cleanup
