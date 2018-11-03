@@ -51,3 +51,8 @@ n_events_six_months <- past_meetups %>%
   count() %>% 
   arrange(desc(n))
 
+#Get the list of cities without events in the last 6 months
+#In total_number_events we have all the cities with some event
+#In n_events_six_month we have all the cities with some event in the last six month
+#The anti_join by city of this two dataset give us the list of cities without events in the last 6 month
+no_events_six_month_ago <- total_number_events %>% anti_join(n_events_six_months, by = "city")
