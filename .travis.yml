@@ -6,4 +6,4 @@ before_install:
   -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
 script:
-- Rscript -e 'source("R/daily-job_get-meetup-events_save-dropbox.R")'
+- Rscript -e 'source("R/daily-job_get-meetup-events_save-to-gdrive.R")'
