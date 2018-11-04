@@ -2,7 +2,7 @@ library(rdrop2)
 library(meetupr)
 library(lubridate)
 library(tidyverse)
-
+library(googledrive)
 
 # Need to setup the MEETUP KEY and read it
 futile.logger::flog.info("Loading meetup api key")
@@ -75,13 +75,11 @@ past_meetups[grep("https:www.meetup.comSpotkaniaEntuzjastowRWarsawRUsersGroupMee
 futile.logger::flog.info("Dataset rows: %s", dim(past_meetups))
 
 # -------------------------------------------------------------------
-# Save the Data on dropbox 
+# Save the data on GDRIVE 
 # -------------------------------------------------------------------
-futile.logger::flog.info("Reading Dropbox token")
-dropbox_token <- readRDS("R/token-dropbox.rds")
-# token <- drop_auth()
-# saveRDS(token, file = "token.rds")
+
 fn <- paste0(today(), "_past_meetups.csv")
 write_csv(past_meetups, fn)
-futile.logger::flog.info("Uploading file to Dropbox")
+futile.logger::flog.info("Uploading file to Google Drive ----------------------------")
+drive_upload(fn, as_id("19lhxDSX6EWRp3xLIZ-5KUjfmzHcplHNY"), name = fn)
 drop_upload(fn, "rladies-metrics-data/", dtoken = dropbox_token)
