@@ -11,7 +11,7 @@ futile.logger::flog.info("Loading meetup api key")
 # Add a ifelse when running the shinyapp
 
 # the meetup key was added to TRAVIS
-api_key <- readRDS("R/token-meetup.rds")
+api_key <- readRDS("token-meetup.rds")
 
 # source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
 source("R/get-data-chapters.R")
@@ -77,7 +77,7 @@ futile.logger::flog.info("Dataset rows: %s", dim(past_meetups))
 # -------------------------------------------------------------------
 # Save the data on GDRIVE 
 # -------------------------------------------------------------------
-
+drive_auth("token-gdrive.rds")
 fn <- paste0(today(), "_past_meetups.csv")
 write_csv(past_meetups, fn)
 futile.logger::flog.info("Uploading file to Google Drive ----------------------------")
