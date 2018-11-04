@@ -5,3 +5,4 @@
 *.RDS
 .DS_Store
 .httr-oauth
+*.rds.enc

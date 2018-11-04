@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 *.RDS
 ^\.httr-oauth$
+*.rds.enc
