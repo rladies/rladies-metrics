@@ -5,15 +5,20 @@ library(tidyverse)
 library(googledrive)
 
 # Need to setup the MEETUP KEY and read it
-futile.logger::flog.info("Loading meetup api key")
+futile.logger::flog.info("\n \n ---------- Loading meetup api key ------------------------------ \n")
 
 ### TODO
 # Add a ifelse when running the shinyapp
 
-# the meetup key was added to TRAVIS
-api_key <- readRDS("token-meetup.rds")
+# read the meetup token (key). This token is saved on my local machine and encripted
+# so travis could use (see .travis.yml)
+token_path <- file.path("~/.R/gargle/")
+fn <- "token-meetup.rds"
+meetup_token_path <- file.path(paste0(token_path, fn))
+api_key <- readRDS(meetup_token_path)
 
-# source("https://raw.githubusercontent.com/rladies/rshinylady/master/chapters_source.R")
+# 
+
 source("R/get-data-chapters.R")
 
 
@@ -26,7 +31,7 @@ slowly <- function(f, delay = 0.5) {
   }
 }
 
-# Only run this if there is 
+
 
 
 
@@ -77,9 +82,13 @@ futile.logger::flog.info("Dataset rows: %s", dim(past_meetups))
 # -------------------------------------------------------------------
 # Save the data on GDRIVE 
 # -------------------------------------------------------------------
-drive_auth("token-gdrive.rds")
+token_path <- file.path("~/.R/gargle/")
+fn <- "token-gdrive.rds"
+gdrive_token_path <- file.path(paste0(token_path, fn))
+drive_auth(gdrive_token_path)
 fn <- paste0(today(), "_past_meetups.csv")
 write_csv(past_meetups, fn)
 futile.logger::flog.info("Uploading file to Google Drive ----------------------------")
+# TODO: add overwrite - if the file was already uploded, should we overwrite it?
 drive_upload(fn, as_id("19lhxDSX6EWRp3xLIZ-5KUjfmzHcplHNY"), name = fn)
-drop_upload(fn, "rladies-metrics-data/", dtoken = dropbox_token)
+
