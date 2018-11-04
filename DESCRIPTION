@@ -13,6 +13,7 @@ Imports:
     rdrop2,
     lubridate,
     futile.logger,
-    meetupr
+    meetupr,
+    googledrive
 Remotes: 
     rladies/meetupr
