@@ -1,8 +1,26 @@
+library(rjson)
+library(httr)
+library(twitteR)
+
 # -------------------
 # Groups on twitter 
 # -------------------
-load("twitter_tokens.RData")
+# We need several info from the twitter API
+# app name (you can choose whatever you. Mine is "rtweet-pkg")
+# consumer_key, consumer_secret, access_token, access_token_secret
+# I save all the keys and tokens as rds and then 
+# archive them as .tar (twitter-credentials-secret.tar)
 
+# read keys and tokens
+token_path <- file.path("~/.R/gargle/")
+consumer_key <- readRDS(paste0(token_path, "twitter-consumer-key.rds"))
+consumer_secret <- readRDS(paste0(token_path, "twitter-consumer-secret.rds"))
+access_token <- readRDS(paste0(token_path, "twitter-access-token.rds"))
+access_token_secret <- readRDS(paste0(token_path, "twitter-access-token-secret.rds"))
+
+
+
+# function to authentincate twitter without opening an browser
 createTokenNoBrowser<- function(appName, consumerKey, consumerSecret, 
                                 accessToken, accessTokenSecret) {
   app <- httr::oauth_app(appName, consumerKey, consumerSecret)
@@ -18,21 +36,11 @@ token <- createTokenNoBrowser("rtweet-pkg", consumer_key, consumer_secret,
                               access_token, access_token_secret)
 
 
-# twitter_token <- create_token(
-#   app = "rtweet-pkg",
-#   consumer_key = consumer_key,
-#   consumer_secret = consumer_secret)
-
 # rladies_chapters_twitter <- lists_members(slug = "rladies-chapters", owner_user = "gdequeiroz")
 # n_rladies_chapters_twitter <- nrow(rladies_chapters_twitter)
+
 futile.logger::flog.info("Getting data from twitter")
 
-
-library(rjson)
-library(httr)
-library(twitteR)
-
-# load("twitter_tokens.RData")
 
 # Set-up twitter authentication
 setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_token_secret)
