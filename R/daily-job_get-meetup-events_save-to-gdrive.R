@@ -12,8 +12,8 @@ futile.logger::flog.info("\n \n ---------- Loading meetup api key --------------
 
 # read the meetup token (key). This token is saved on my local machine and encripted
 # so travis could use (see .travis.yml)
-token_path <- file.path("~/.R/gargle/token-meetup.rds")
-api_key <- readRDS(file = token_path)
+# token_path <- file.path("~/.R/gargle/token-meetup.rds")
+api_key <- readRDS(file = "token-meetup.rds")
 
 # 
 
