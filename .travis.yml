@@ -4,7 +4,7 @@ cache:
 before_install:
 - mkdir -p ~/.R/gargle
 - openssl aes-256-cbc -K $encrypted_d4a97966b6bb_key -iv $encrypted_d4a97966b6bb_iv
-  -in token-meetup.rds.enc -out ~\/.R/gargle/token-meetup.rds -d
+  -in token-meetup.rds.enc -out ~/.R/gargle/token-meetup.rds -d
 - openssl aes-256-cbc -K $encrypted_a201ead168c6_key -iv $encrypted_a201ead168c6_iv
   -in token-gdrive.rds.enc -out ~/.R/gargle/token-gdrive.rds -d
 - openssl aes-256-cbc -K $encrypted_d4a97966b6bb_key -iv $encrypted_d4a97966b6bb_iv
