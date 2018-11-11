@@ -80,10 +80,10 @@ futile.logger::flog.info("Dataset rows: %s", dim(past_meetups))
 # -------------------------------------------------------------------
 # Save the data on GDRIVE 
 # -------------------------------------------------------------------
-token_path <- file.path("~/.R/gargle/")
-fn <- "token-gdrive.rds"
-gdrive_token_path <- file.path(paste0(token_path, fn))
-drive_auth(gdrive_token_path)
+# token_path <- file.path("~/.R/gargle/")
+# fn <- "token-gdrive.rds"
+# gdrive_token_path <- file.path(paste0(token_path, fn))
+drive_auth("token-gdrive.rds")
 fn <- paste0(today(), "_past_meetups.csv")
 write_csv(past_meetups, fn)
 futile.logger::flog.info("Uploading file to Google Drive ----------------------------")
