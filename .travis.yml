@@ -4,12 +4,12 @@ cache:
 before_install:
 - mkdir -p ~/.R/gargle
 - openssl aes-256-cbc -K $encrypted_d4a97966b6bb_key -iv $encrypted_d4a97966b6bb_iv
+  -in twitter-credentials-secret.tar.enc -out ~/.R/gargle/twitter-credentials-secret.tar
+  -d
+- openssl aes-256-cbc -K $encrypted_d4a97966b6bb_key -iv $encrypted_d4a97966b6bb_iv
   -in token-meetup.rds.enc -out ~/.R/gargle/token-meetup.rds -d
 - openssl aes-256-cbc -K $encrypted_a201ead168c6_key -iv $encrypted_a201ead168c6_iv
   -in token-gdrive.rds.enc -out ~/.R/gargle/token-gdrive.rds -d
-- openssl aes-256-cbc -K $encrypted_d4a97966b6bb_key -iv $encrypted_d4a97966b6bb_iv
-  -in twitter-credentials-secret.tar.enc -out ~/.R/gargle/twitter-credentials-secret.tar
-  -d
 - tar xvf ~/.R/gargle/twitter-credentials-secret.tar
 script:
 - Rscript -e 'source("R/daily-job_get-meetup-events_save-to-gdrive.R")'
