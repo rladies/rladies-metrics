@@ -58,12 +58,18 @@ futile.logger::flog.info("\n \n -------- Downloading past events ---------- \n \
 rl_meetups_past <- map(rladies_groups$urlname, slowly(safely(get_events)), 
                        event_status = c("past"), api_key = api_key)
 
-# str(rl_meetups_past, max.level = 1)
+# -- output of rl_meetups_past
+# > str(rl_meetups_past[1], max.level = 2)
+# List of 1
+# $ :List of 2
+# ..$ result:Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	10 obs. of  21 variables:
+#   ..$ error : NULL
+
 
 futile.logger::flog.info("\n \n Number of chapters (list length): %s \n \n", length(rl_meetups_past))
 
-# We don't need to save all the data. We need: 
-# "local_date", "venue_city", "venue_country", "link"
+# We don't need to save all the data. 
+# We need: "local_date", "venue_city", "venue_country", "link"
 # -- output: list containing info from past events
 subset_past_meetups <- lapply(
   seq_along(rl_meetups_past), 
@@ -71,24 +77,60 @@ subset_past_meetups <- lapply(
     "local_date", "venue_city", "venue_country", "link"
   )]
 )
+# -- output of subset_past_meetups
+# > str(subset_past_meetups[1], max.level = 2)
+# List of 1
+# $ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	10 obs. of  4 variables:
+#   ..$ local_date   : Date[1:10], format: "2016-11-21" "2016-12-05" "2017-01-16" "2017-02-20" ...
+# ..$ venue_city   : chr [1:10] NA "Barcelona" "Barcelona" "Barcelona" ...
+# ..$ venue_country: chr [1:10] NA "es" "es" "es" ...
+# ..$ link         : chr [1:10] "https://www.meetup.com/rladies-barcelona/events/235064329/"  ...
+
 
 # Combine the list and create a df
 # -- output: "tbl_df" "tbl" "data.frame"
 # one row for each event
 past_meetups <- bind_rows(subset_past_meetups)
 
+# -- output of past_meetups
+# > head(past_meetups)
+# # A tibble: 6 x 4
+# local_date venue_city venue_country link                                                      
+# <date>     <chr>      <chr>         <chr>                                                     
+#   1 2016-11-21 NA         NA            https://www.meetup.com/rladies-barcelona/events/235064329/
+#   2 2016-12-05 Barcelona  es            https://www.meetup.com/rladies-barcelona/events/235593376/
+
+
 futile.logger::flog.info("Dataset contains %s rows and %s columns", nrow(past_meetups), ncol(past_meetups))
 
 # Clean up url to get the city name -------------------------------------
+
+# if you look at the "venue_city", some of the values are NA so a work around
+# would be to get the city in the url. The url link is in the form of:
+# https://www.meetup.com/rladies-barcelona/events/238510980/
+# "meetup.com" + "rladies-" + city "+ "/events/" + number of the event
+
+# First we need to get everything before events
 past_meetups$meetup_url <- gsub("events.*","", past_meetups$link)
-length(unique(past_meetups$meetup_url))
-futile.logger::flog.info("Length meetup: %s", dim(past_meetups))
 
+# Then we can get the city name. For that we need:
+# 1) Match and Replace by "" everything that comes before rladies (and its variation)
+#   -- output: "-austin/"; "-porto-alegre/" (for example)
+# 2) Match and Replace by "" forward slash or the hifen in the beginning or the undescore
+#   -- output: "austin"; "porto-alegre" (for example)
+# 3) Match and Replace by " " (space) the hifen between words
+#   -- output: "austin"; "porto alegre" (for example)
+# 4) Capitalize first letter of every word
 
-past_meetups$city <- gsub("-|/|_", "", 
-                          gsub(pattern = ".*(rladies|r-ladies|R-Ladies|RLadies)", "", 
+past_meetups$city <- str_to_title(gsub("-", " ", 
+                          gsub("/|^-|_", "", 
+                               gsub(pattern = ".*(rladies|r-ladies|R-Ladies|RLadies)", "", 
                                past_meetups$meetup_url)
 )
+))
+
+
+
 # unique(past_meetups$city)
 
 # Small fixes
@@ -96,20 +138,7 @@ past_meetups[grep("%C4%B0zmiR", past_meetups$city, ignore.case = TRUE), "city"] 
 past_meetups[grep("https:www.meetup.comSpotkaniaEntuzjastowRWarsawRUsersGroupMeetup", 
                   past_meetups$city, ignore.case = TRUE), "city"] <- "Warsaw"
 
-futile.logger::flog.info("Dataset rows: %s", dim(past_meetups))
-
-
-
-
-
-
-
-
-
-
-
-
-
+futile.logger::flog.info("Dataset rows: %s", nrow(past_meetups))
 
 
 # -------------------------------------------------------------------
