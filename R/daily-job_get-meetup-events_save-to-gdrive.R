@@ -1,27 +1,31 @@
-library(rdrop2)
+# ------------------------------------------------------------- #
+# The goal of the script is:
+# 1) get the data (more specifically past events) from the 
+#    R-Ladies meetups using the meetupr package 
+# 2) Save the data as .csv and then upload to google drive
+#
+# Files sourced in this script: get-data-chapters.R
+# Tokens needed: token-meetup.rds; token-gdrive.rds
+# ------------------------------------------------------------- #
 library(meetupr)
 library(lubridate)
 library(tidyverse)
 library(googledrive)
 
 # Need to setup the MEETUP KEY and read it
-futile.logger::flog.info("\n \n ---------- Loading meetup api key ------------------------------ \n")
+futile.logger::flog.info("\n \n -------- Loading meetup api key ------------ \n")
 
-### TODO
-# Add a ifelse when running the shinyapp
-
-# read the meetup token (key). This token is saved on my local machine and encripted
+# Read the meetup token (key). This token is saved on my local machine and encripted
 # so travis could use (see .travis.yml)
-# token_path <- file.path("~/.R/gargle/token-meetup.rds")
 api_key <- readRDS(file = "token-meetup.rds")
 
-# 
-
+# Read the script get-data-chapters.R - it grabs all the info from meetups
+# using the meetupr package
 source("R/get-data-chapters.R")
 
 
 
-# slowly function from Jenny Bryan
+# Slowly function from Jenny Bryan
 slowly <- function(f, delay = 0.5) {
   function(...) {
     Sys.sleep(delay)
@@ -29,21 +33,18 @@ slowly <- function(f, delay = 0.5) {
   }
 }
 
+futile.logger::flog.info("\n \n -------- Downloading meetup info ---------- \n \n")
 
-
-
-
-# data import -------------------------------------------------------------
-futile.logger::flog.info("-------- Downloading meetup info ----------")
 # rladies_groups
-# need to wrap in safely - meetups that have not met (yet) throw an error, which seems to be causing map() to fail
+# need to wrap in safely - meetups that have not met (yet) throw an error, 
+# which seems to be causing map() to fail
 # this takes a few seconds to download
 rl_meetups_past <- map(rladies_groups$urlname, slowly(safely(get_events)), 
                        event_status = c("past"), api_key = api_key)
 
 # str(rl_meetups_past, max.level = 1)
 
-futile.logger::flog.info("Length meetup: %s", length(rl_meetups_past))
+futile.logger::flog.info("\n \n Length meetup: %s \n \n", length(rl_meetups_past))
 
 subset_past_meetups <- lapply(
   seq_along(rl_meetups_past), 
@@ -56,7 +57,7 @@ futile.logger::flog.info("Length meetup: %s", length(subset_past_meetups))
 
 past_meetups <- bind_rows(subset_past_meetups)
 
-futile.logger::flog.info("Length meetup: %s", dim(past_meetups))
+futile.logger::flog.info("Length meetup after bind: %s", dim(past_meetups))
 
 # Clean up url to get the city name -------------------------------------
 past_meetups$meetup_url <- gsub("events.*","", past_meetups$link)
@@ -86,7 +87,7 @@ fn <- "token-gdrive.rds"
 drive_auth(fn)
 fn <- paste0(today(), "_past_meetups.csv")
 write_csv(past_meetups, fn)
-futile.logger::flog.info("Uploading file to Google Drive ----------------------------")
+futile.logger::flog.info(" -------------- Uploading file to Google Drive ------------------")
 # TODO: add overwrite - if the file was already uploded, should we overwrite it?
 drive_upload(fn, as_id("19lhxDSX6EWRp3xLIZ-5KUjfmzHcplHNY"), name = fn)
 
