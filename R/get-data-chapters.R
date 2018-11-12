@@ -22,7 +22,7 @@ library(meetupr)
 # token_path <- file.path("~/.R/gargle/")
 # fn <- "token-meetup.rds"
 # meetup_token_path <- file.path(paste0(token_path, fn))
-api_key <- readRDS(meetup_token_path)
+api_key <- readRDS("token-meetup.rds")
 
 all_rladies_groups <- find_groups(text = "r-ladies", api_key = api_key)
 
